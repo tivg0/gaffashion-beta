@@ -20,6 +20,7 @@ export const loadGLBModel = (
   scenario,
   setIsLoading,
   renderer,
+  allMeshes,
   callback
 ) => {
   const loader = new GLTFLoader();
@@ -72,6 +73,7 @@ export const loadGLBModel = (
               child.receiveShadow = false;
 
               objectNames.push(child.name); // Adiciona o nome ao array
+              allMeshes.current.push(child);
             }
           });
 

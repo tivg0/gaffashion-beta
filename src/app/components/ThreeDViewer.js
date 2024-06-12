@@ -88,6 +88,8 @@ const ThreeDViewer = () => {
   const [fabricTexture, setFabricTexture] = useState(null);
   let selectedMesh = useRef(null);
   let isMouseOutsideModel = useRef(false);
+  let allMeshes = useRef([]);
+  const [isWalletOpen, setIsWalletOpen] = useState(false);
 
   //FABRIC
   let fabricCanvas = useRef(null);
@@ -255,7 +257,14 @@ const ThreeDViewer = () => {
         : null;
 
     //if (model == 1 || model == 2 || model == 3 || model == 4 || model == 5)
-    loadGLBModel("/wallet.glb", scene, setIsLoading, renderer, () => {});
+    loadGLBModel(
+      "/wallet.glb",
+      scene,
+      setIsLoading,
+      renderer,
+      allMeshes,
+      () => {}
+    );
 
     const animate = () => {
       requestAnimationFrame(animate);
@@ -296,6 +305,10 @@ const ThreeDViewer = () => {
         const intersectionResult = intersections[0];
         const clickedMesh = intersectionResult.object;
         selectedMesh.current = clickedMesh;
+
+        //mesh.morphTargetInfluences[0] = 0;
+
+        // Make the transition smooth
 
         scene.children.forEach((child) => {
           if (child instanceof THREE.Group) {
@@ -694,6 +707,39 @@ const ThreeDViewer = () => {
     });
   };
 
+  const openOrCloseWallet = () => {
+    if (isWalletOpen) {
+      allMeshes.current.forEach((mesh) => {
+        const start = { influence: 0 };
+        const end = { influence: 1 }; // Target value
+
+        new TWEEN.Tween(start)
+          .to(end, 500) // Duration in milliseconds
+          .easing(TWEEN.Easing.Exponential.InOut)
+          .onUpdate(() => {
+            mesh.morphTargetInfluences[0] = start.influence;
+          })
+          .start();
+      });
+      setIsWalletOpen(false);
+    } else {
+      allMeshes.current.forEach((mesh) => {
+        const start = { influence: 1 };
+        const end = { influence: 0 }; // Target value
+
+        new TWEEN.Tween(start)
+          .to(end, 500) // Duration in milliseconds
+          .easing(TWEEN.Easing.Exponential.InOut)
+          .onUpdate(() => {
+            mesh.morphTargetInfluences[0] = start.influence;
+          })
+          .start();
+      });
+
+      setIsWalletOpen(true);
+    }
+  };
+
   return (
     <>
       {isLoading && (
@@ -701,6 +747,9 @@ const ThreeDViewer = () => {
           <p>A carregar...</p>
         </div>
       )}
+      <button onClick={openOrCloseWallet}>
+        {isWalletOpen ? "Fechar carteira" : "Abrir Carteira"}
+      </button>
       <div ref={containerRef} style={{ height: "100%", width: "100%" }} />
       <>
         <div ref={editZoneRef} className={styles.editZone}>
