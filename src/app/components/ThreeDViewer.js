@@ -261,7 +261,7 @@ const ThreeDViewer = () => {
 
     //if (model == 1 || model == 2 || model == 3 || model == 4 || model == 5)
     loadGLBModel(
-      "/newWallet.glb",
+      "/walletSimples.glb",
       scene,
       setIsLoading,
       renderer,
@@ -892,8 +892,11 @@ const ThreeDViewer = () => {
                   </button>
                   <button
                     className={styles.divAreaEspecifica}
-                    onClick={openOrCloseWallet}
-                    style={{ borderWidth: isWalletOpen ? 1 : 0 }}
+                    style={{
+                      borderWidth: 1,
+                      cursor: "not-allowed",
+                      opacity: 0.5,
+                    }}
                   >
                     <div className={styles.divIcon}>
                       <NextImage
@@ -917,9 +920,10 @@ const ThreeDViewer = () => {
                   {isWalletOpen ? (
                     <button
                       className={styles.divAreaEspecifica}
-                      onClick={openAba}
                       style={{
-                        borderWidth: 0,
+                        borderWidth: 1,
+                        cursor: "not-allowed",
+                        opacity: 0.5,
                       }}
                     >
                       <div
@@ -1090,7 +1094,7 @@ const ThreeDViewer = () => {
               </button>
               <button
                 className={styles.colorButton}
-                onClick={openOrCloseWallet}
+                style={{ opacity: 0.5, cursor: "not-allowed" }}
               >
                 <NextImage
                   src={isWalletOpen ? fechadoIcon : abertoIcon}
@@ -1101,13 +1105,9 @@ const ThreeDViewer = () => {
               {isWalletOpen ? (
                 <>
                   {isAbaOpen ? (
-                    <button className={styles.colorButton} onClick={openAba}>
-                      &#8595;
-                    </button>
+                    <button className={styles.colorButton}>&#8595;</button>
                   ) : (
-                    <button className={styles.colorButton} onClick={openAba}>
-                      &#8593;
-                    </button>
+                    <button className={styles.colorButton}>&#8593;</button>
                   )}
                 </>
               ) : null}
