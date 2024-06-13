@@ -14,7 +14,7 @@ const ColorEditor = forwardRef(
     },
     ref
   ) => {
-    const [heightWindow, setHeightWindow] = useState(292);
+    const [heightWindow, setHeightWindow] = useState(130);
 
     const editZoneRefColor = useRef(null);
 
@@ -97,14 +97,25 @@ const ColorEditor = forwardRef(
 
           {/*<div className={styles.coresDisposalTlm}>*/}
           <div className={styles.coresDisposal}>
-            {Object.values(colors).map((color, index) => (
+            <button
+              style={{ backgroundColor: "#000" }}
+              className={styles.addCorBtn}
+              onClick={() => handleBGColorChange("#000")}
+            />
+
+            <button
+              style={{ backgroundColor: "#22170F" }}
+              className={styles.addCorBtn}
+              onClick={() => handleBGColorChange("#22170F")}
+            />
+            {/*Object.values(colors).map((color, index) => (
               <button
                 key={index}
                 style={{ backgroundColor: color }}
                 className={styles.addCorBtn}
                 onClick={() => handleBGColorChange(color)}
               />
-            ))}
+            ))*/}
           </div>
           {/*</div>*/}
         </div>

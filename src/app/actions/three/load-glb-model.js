@@ -36,9 +36,9 @@ export const loadGLBModel = (
   const transmissionPanoPromise = ktx2Loader.load("/transmissionPano.ktx2");*/
 
   Promise.all([
-    ktx2Loader.loadAsync("/normalLeather.ktx2"),
-    ktx2Loader.loadAsync("/roughnessLeather.ktx2"),
-    ktx2Loader.loadAsync("/plasticNormal.ktx2"),
+    ktx2Loader.loadAsync("/NORMAL.ktx2"),
+    ktx2Loader.loadAsync("/ROUGHNESS.ktx2"),
+    ktx2Loader.loadAsync("/CLEARCOATNORMAL.ktx2"),
   ])
     .then((textures) => {
       const [normal, roughness, plasticNormal] = textures;
@@ -50,27 +50,26 @@ export const loadGLBModel = (
         path,
         function (gltf) {
           // Ajuste da posição inicial da cena do modelo
-          gltf.scene.position.set(-3, -1, 0);
+          gltf.scene.position.set(0, 0, 0);
           gltf.scene.traverse(function (child) {
+            console.log(child);
             if (child.isMesh) {
-              console.log(child);
-              if (child.name.includes("1")) {
+              if (child.name.includes("PUTA")) {
                 child.material.clearcoatNormalMap = plasticNormal;
-                child.material.normalMap = normal;
-                child.material.roughnessMap = roughness;
-              } else if (!child.name.includes("3")) {
-                child.material.normalMap = normal;
-                child.material.roughnessMap = roughness;
-
-                //child.material.roughness = 0.5;
+                child.material.clearcoatRoughness = 0.8;
               }
+              child.material.normalMap = normal;
+              child.material.roughnessMap = roughness;
+              child.material.roughness = 1;
 
-              child.material.specularIntensity = 0;
               child.material.opacity = 0;
               child.material.transparent = true;
               child.material.needsUpdate = true;
               child.castShadow = true;
-              child.receiveShadow = false;
+              child.receiveShadow = true;
+              child.morphTargetInfluences[0] = 0;
+              child.morphTargetInfluences[1] = 0;
+              child.morphTargetInfluences[2] = 1;
 
               objectNames.push(child.name); // Adiciona o nome ao array
               allMeshes.current.push(child);
@@ -83,7 +82,7 @@ export const loadGLBModel = (
           // Inicia a animação da escala da cena completa
 
           new TWEEN.Tween({ x: 0, y: 0, z: 0 })
-            .to({ x: 0.8, y: 0.8, z: 0.8 }, 1610)
+            .to({ x: 1, y: 1, z: 1 }, 1610)
             .easing(TWEEN.Easing.Exponential.InOut)
             .onUpdate((scale) => {
               gltf.scene.scale.set(scale.x, scale.y, scale.z);

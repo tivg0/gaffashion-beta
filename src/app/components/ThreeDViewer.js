@@ -90,6 +90,7 @@ const ThreeDViewer = () => {
   let isMouseOutsideModel = useRef(false);
   let allMeshes = useRef([]);
   const [isWalletOpen, setIsWalletOpen] = useState(false);
+  const [isAbaOpen, setIsAbaOpen] = useState(false);
 
   //FABRIC
   let fabricCanvas = useRef(null);
@@ -258,7 +259,7 @@ const ThreeDViewer = () => {
 
     //if (model == 1 || model == 2 || model == 3 || model == 4 || model == 5)
     loadGLBModel(
-      "/wallet.glb",
+      "/newWallet.glb",
       scene,
       setIsLoading,
       renderer,
@@ -359,7 +360,7 @@ const ThreeDViewer = () => {
           );
         }
 
-        setTimeout(() => {
+        /*setTimeout(() => {
           selectImageResult = selectImage(
             intersectionResult,
             previousUVCursor,
@@ -396,12 +397,12 @@ const ThreeDViewer = () => {
               closeAllTabs();
             }, 100);
           }
-        }, 10);
+        }, 10);*/
 
         openEditor();
 
         //NÃO INTERSETA
-      } else {
+      } /*else {
         if (editingComponent.current)
           storeCanvasAndTexture(
             editingComponent,
@@ -419,10 +420,10 @@ const ThreeDViewer = () => {
         }, 10);
 
         editZoneRefChild.current.style.opacity = "1";
-      }
+      }*/
     }
 
-    const onMouseMove = (e) => {
+    /*const onMouseMove = (e) => {
       if (!isDragging) return;
 
       const x = e.clientX;
@@ -484,22 +485,22 @@ const ThreeDViewer = () => {
       });
       fabricCanvas.current.renderAll();
       updateTexture();
-    }
+    }*/
 
     //LISTENERS////////////////////////////////////////////////////////////////////////////
     window.addEventListener("resize", onWindowResize);
     containerRef.current.addEventListener("mousedown", onMouseDown);
-    containerRef.current.addEventListener("mousemove", onMouseMove);
-    containerRef.current.addEventListener("mouseup", onMouseUp);
+    //containerRef.current.addEventListener("mousemove", onMouseMove);
+    //containerRef.current.addEventListener("mouseup", onMouseUp);
     containerRef.current.addEventListener("touchstart", onMouseDown, {
       passive: true,
     });
-    containerRef.current.addEventListener("touchmove", onTouchMove, {
+    /*containerRef.current.addEventListener("touchmove", onTouchMove, {
       passive: true,
     });
     containerRef.current.addEventListener("touchend", onMouseUp, {
       passive: true,
-    });
+    });*/
 
     fabricCanvas.current.on("object:modified", updateTexture());
     fabricCanvas.current.on("object:scaling", updateTexture());
@@ -513,11 +514,11 @@ const ThreeDViewer = () => {
       window.removeEventListener("resize", onWindowResize);
       if (containerRef.current) {
         containerRef.current.removeEventListener("mousedown", onMouseDown);
-        containerRef.current.removeEventListener("mousemove", onMouseMove);
-        containerRef.current.removeEventListener("mouseup", onMouseUp);
+        // containerRef.current.removeEventListener("mousemove", onMouseMove);
+        //containerRef.current.removeEventListener("mouseup", onMouseUp);
         containerRef.current.removeEventListener("touchstart", onMouseDown);
-        containerRef.current.removeEventListener("touchmove", onTouchMove);
-        containerRef.current.removeEventListener("touchend", onMouseUp);
+        //containerRef.current.removeEventListener("touchmove", onTouchMove);
+        //containerRef.current.removeEventListener("touchend", onMouseUp);
       }
       fabricCanvas.current.off("object:modified", updateTexture());
       fabricCanvas.current.off("object:scaling", updateTexture());
@@ -644,7 +645,16 @@ const ThreeDViewer = () => {
   };
 
   const handleBGColorChange = (color) => {
-    setBGColor(color, editingComponent, fabricCanvas, updateTexture);
+    function convertHexColor(hexColor) {
+      if (hexColor.startsWith("#")) {
+        hexColor = hexColor.slice(1);
+      }
+      return parseInt(hexColor, 16);
+    }
+    //setBGColor(color, editingComponent, fabricCanvas, updateTexture);
+    allMeshes.current.forEach((mesh) => {
+      mesh.material.color = new THREE.Color(convertHexColor(color));
+    });
   };
 
   const handelUploadImage = (e) => {
@@ -708,35 +718,93 @@ const ThreeDViewer = () => {
   };
 
   const openOrCloseWallet = () => {
-    if (isWalletOpen) {
+    if (isAbaOpen) {
+      openAba();
+    }
+
+    setTimeout(() => {
       allMeshes.current.forEach((mesh) => {
-        const start = { influence: 0 };
-        const end = { influence: 1 }; // Target value
+        console.log(mesh.morphTargetInfluences);
+      });
+      if (isWalletOpen) {
+        allMeshes.current.forEach((mesh) => {
+          const start = {
+            influence: 0,
+            inverse: 1,
+            rotation: -Math.PI / 2,
+            x: 0,
+          };
+          const end = { influence: 1, inverse: 0, rotation: 0, x: -2 }; // Target value
+
+          new TWEEN.Tween(start)
+            .to(end, 500) // Duration in milliseconds
+            .easing(TWEEN.Easing.Exponential.InOut)
+            .onUpdate(() => {
+              mesh.morphTargetInfluences[2] = start.influence;
+              mesh.morphTargetInfluences[0] = start.inverse;
+              mesh.rotation.y = start.rotation;
+            })
+            .start();
+        });
+        setIsWalletOpen(false);
+      } else {
+        allMeshes.current.forEach((mesh) => {
+          const start = { influence: 1, inverse: 0, rotation: 0, x: -2 };
+          const end = {
+            influence: 0,
+            inverse: 1,
+            rotation: -Math.PI / 2,
+            x: 0,
+          }; // Target value
+
+          new TWEEN.Tween(start)
+            .to(end, 500) // Duration in milliseconds
+            .easing(TWEEN.Easing.Exponential.InOut)
+            .onUpdate(() => {
+              mesh.morphTargetInfluences[2] = start.influence;
+              mesh.morphTargetInfluences[0] = start.inverse;
+              mesh.rotation.y = start.rotation;
+            })
+            .start();
+        });
+
+        setIsWalletOpen(true);
+      }
+    }, 510);
+  };
+
+  const openAba = () => {
+    if (isAbaOpen) {
+      allMeshes.current.forEach((mesh) => {
+        const start = { influence: 0, inverse: 1 };
+        const end = { influence: 1, inverse: 0 }; // Target value
 
         new TWEEN.Tween(start)
           .to(end, 500) // Duration in milliseconds
           .easing(TWEEN.Easing.Exponential.InOut)
           .onUpdate(() => {
             mesh.morphTargetInfluences[0] = start.influence;
+            mesh.morphTargetInfluences[1] = start.inverse;
           })
           .start();
       });
-      setIsWalletOpen(false);
+      setIsAbaOpen(false);
     } else {
       allMeshes.current.forEach((mesh) => {
-        const start = { influence: 1 };
-        const end = { influence: 0 }; // Target value
+        const start = { influence: 1, inverse: 0 };
+        const end = { influence: 0, inverse: 1 }; // Target value
 
         new TWEEN.Tween(start)
           .to(end, 500) // Duration in milliseconds
           .easing(TWEEN.Easing.Exponential.InOut)
           .onUpdate(() => {
             mesh.morphTargetInfluences[0] = start.influence;
+            mesh.morphTargetInfluences[1] = start.inverse;
           })
           .start();
       });
 
-      setIsWalletOpen(true);
+      setIsAbaOpen(true);
     }
   };
 
@@ -750,6 +818,11 @@ const ThreeDViewer = () => {
       <button onClick={openOrCloseWallet}>
         {isWalletOpen ? "Fechar carteira" : "Abrir Carteira"}
       </button>
+      {isWalletOpen ? (
+        <button onClick={openAba}>
+          {isAbaOpen ? "Fechar Aba" : "Abrir Aba"}
+        </button>
+      ) : null}
       <div ref={containerRef} style={{ height: "100%", width: "100%" }} />
       <>
         <div ref={editZoneRef} className={styles.editZone}>

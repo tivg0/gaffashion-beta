@@ -19,13 +19,13 @@ export function createSceneLayout() {
     0.1,
     1000
   );
-  camera.position.z = 25;
+  camera.position.z = 15;
   camera.position.y = -5;
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  const ambientLight = new THREE.AmbientLight(0xffffff, 1);
   scene.add(ambientLight);
 
-  /* const topLight = new THREE.RectAreaLight(0xaaaaff, 2, 10, 10);
+  const topLight = new THREE.RectAreaLight(0xaaaaff, 2, 10, 10);
   topLight.position.set(0, 7, 0);
   topLight.lookAt(0, 0, 0);
   scene.add(topLight);
@@ -39,7 +39,7 @@ export function createSceneLayout() {
   light2.position.set(-5, 5, 0);
   light2.lookAt(0, 0, 0);
   scene.add(light2);
-
+  /*
   const light3 = new THREE.RectAreaLight(0xffaaaa, 2, 10, 10);
   light3.position.set(0, 5, 5);
   light3.lookAt(0, 0, 0);
@@ -84,12 +84,12 @@ export function createSceneLayout() {
   orbit.enablePan = false;
   orbit.enabled = true;
   orbit.minDistance = 10;
-  orbit.maxDistance = 35;
+  orbit.maxDistance = 20;
 
   //scene.fog = new THREE.FogExp2(0xf4f4f4, 0.0161);
 
   scene.environment = hdri("/hdri5.exr", renderer, scene);
-  scene.environmentIntensity = 10;
+  scene.environmentIntensity = 5;
 
   return {
     scene: scene,
