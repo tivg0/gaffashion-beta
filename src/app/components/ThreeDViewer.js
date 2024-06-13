@@ -859,26 +859,49 @@ const ThreeDViewer = () => {
           <div className={styles.editHeader} ref={editZoneRefChild}>
             <div>
               {editingComponentName.includes("COR") ? (
-                <button
-                  onClick={colorEditorTab}
-                  className={styles.divAreaEspecifica}
-                  style={{ borderWidth: 0 }}
-                >
-                  <div className={styles.divIcon}>
-                    <NextImage
-                      src={colorIcon}
-                      width={20}
-                      height={20}
-                      alt="step"
-                    />
-                  </div>
-                  <div>
-                    <p className={styles.titleText}>Cor</p>
-                    <p className={styles.infoText}>
-                      Dá um toque final ao teu produto.
-                    </p>
-                  </div>
-                </button>
+                <>
+                  <button
+                    onClick={colorEditorTab}
+                    className={styles.divAreaEspecifica}
+                    style={{ borderWidth: 0 }}
+                  >
+                    <div className={styles.divIcon}>
+                      <NextImage
+                        src={colorIcon}
+                        width={20}
+                        height={20}
+                        alt="step"
+                      />
+                    </div>
+                    <div>
+                      <p className={styles.titleText}>Cor</p>
+                      <p className={styles.infoText}>
+                        Dá um toque final ao teu produto.
+                      </p>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={colorEditorTab}
+                    className={styles.divAreaEspecifica}
+                    style={{ borderWidth: 0 }}
+                  >
+                    <div className={styles.divIcon}>
+                      <NextImage
+                        src={colorIcon}
+                        width={20}
+                        height={20}
+                        alt="step"
+                      />
+                    </div>
+                    <div>
+                      <p className={styles.titleText}>Cor</p>
+                      <p className={styles.infoText}>
+                        Dá um toque final ao teu produto.
+                      </p>
+                    </div>
+                  </button>
+                </>
               ) : (
                 <>
                   {editingComponentName.includes("MIX") ? (
