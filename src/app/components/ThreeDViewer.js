@@ -309,6 +309,10 @@ const ThreeDViewer = () => {
         const clickedMesh = intersectionResult.object;
         selectedMesh.current = clickedMesh;
 
+        if (!colorEditor) {
+          closeEditor();
+        }
+
         //mesh.morphTargetInfluences[0] = 0;
 
         // Make the transition smooth
@@ -537,6 +541,7 @@ const ThreeDViewer = () => {
 
   const openEditor = () => {
     setForceClose(false);
+
     if (editZoneRef.current) {
       setTimeout(() => {
         editZoneRef.current.style.right = "50px";
@@ -548,11 +553,9 @@ const ThreeDViewer = () => {
           "right 0.3s cubic-bezier(0.4, 0.0, 0.6, 1.0), scale 0.3s cubic-bezier(0.4, 0.2, 0.6, 1.0), top 0.2s cubic-bezier(0.4, 0.0, 0.6, 1.0), filter 0.4s 0.1s cubic-bezier(0.1, 0.7, 0.0, 1.0), opacity 0.4s linear, scale 0.4s cubic-bezier(0.1, 0.7, 0.0, 1.0), height 0.3s 0.1s cubic-bezier(0.1, 0.7, 0.0, 1.0)";
         editZoneRef.current.style.scale = 1;
         editingComponent.current.name.includes("COR")
-          ? (editZoneRef.current.style.height = !isWalletOpen
-              ? "220px"
-              : "292px")
+          ? (editZoneRef.current.style.height = "292px")
           : editingComponent.current.name.includes("MIX")
-          ? (editZoneRef.current.style.height = "220px")
+          ? (editZoneRef.current.style.height = "210px")
           : (editZoneRef.current.style.height = "100px");
       }, 10);
     }
@@ -560,9 +563,8 @@ const ThreeDViewer = () => {
 
   const closeEditor = () => {
     closeAllTabs();
-    editZoneRef.current.style.height = "220px";
+    editZoneRef.current.style.height = "210px";
     setTimeout(() => {
-      setIsWalletOpen(false);
       setForceClose(true);
     }, 100);
 
@@ -734,7 +736,7 @@ const ThreeDViewer = () => {
         console.log(mesh.morphTargetInfluences);
       });
       if (isWalletOpen) {
-        editZoneRef.current.style.height = "220px";
+        editZoneRef.current.style.height = "210px";
 
         allMeshes.current.forEach((mesh) => {
           const start = {
@@ -943,7 +945,39 @@ const ThreeDViewer = () => {
                         </p>
                       </div>
                     </button>
-                  ) : null}
+                  ) : (
+                    <button
+                      className={styles.divAreaEspecifica}
+                      style={{
+                        borderWidth: 0,
+                        opacity: 0.5,
+                        cursor: "not-allowed",
+                      }}
+                    >
+                      <div
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          display: "flex",
+                          fontSize: 16,
+                          color: "#000",
+                        }}
+                        className={styles.divIcon}
+                      >
+                        {isAbaOpen ? <p> &#8595;</p> : <p> &#8593;</p>}
+                      </div>
+                      <div>
+                        <p className={styles.titleText}>
+                          {isAbaOpen ? "Fechar Aba" : "Abrir Aba"}
+                        </p>
+                        <p className={styles.infoText}>
+                          {isAbaOpen
+                            ? "Abra a aba da carteira."
+                            : "Feche a aba da carteira."}
+                        </p>
+                      </div>
+                    </button>
+                  )}
                 </>
               ) : (
                 <>

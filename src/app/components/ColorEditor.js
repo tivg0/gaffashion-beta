@@ -55,7 +55,7 @@ const ColorEditor = forwardRef(
     return (
       <>
         <div
-          style={{ height: heightWindow, opacity: 0 }}
+          style={{ height: heightWindow, opacity: 1 }}
           ref={editZoneRefColor}
           className={styles.editZoneCor}
         >

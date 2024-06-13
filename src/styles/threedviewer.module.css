@@ -527,7 +527,7 @@
     box-shadow: 0 0 0 transparent;
     z-index: 10;
     border-radius: 0px;
-    height: 100%;
+    height: auto;
     width: 60px;
     justify-content: flex-end;
   }
@@ -539,7 +539,6 @@
     gap: 15px;
     align-self: center;
     justify-content: flex-end;
-    height: 100%;
     right: 0;
   }
 
