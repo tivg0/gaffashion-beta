@@ -11,6 +11,7 @@ const ColorEditor = forwardRef(
       editZoneRef,
       editZoneRefChild,
       forceClose,
+      isWalletOpen,
     },
     ref
   ) => {
@@ -23,8 +24,8 @@ const ColorEditor = forwardRef(
       editZoneRefColor.current.style.transition =
         "opacity 0.2s cubic-bezier(0.1, 0.1, 0.0, 1.0), scale 0.6s 0.2s cubic-bezier(0.4, 0.7, 0.0, 1.0)";
       editingComponent.current.name.includes("COR")
-        ? (editZoneRef.current.style.height = "130px")
-        : (editZoneRef.current.style.height = "292px");
+        ? (editZoneRef.current.style.height = isWalletOpen ? "292px" : "220px")
+        : (editZoneRef.current.style.height = "130px");
       editZoneRef.current.style.transition =
         "height 0.3s cubic-bezier(0.1, 0.7, 0.0, 1.0)";
       editZoneRefChild.current.style.opacity = 1;

@@ -548,9 +548,11 @@ const ThreeDViewer = () => {
           "right 0.3s cubic-bezier(0.4, 0.0, 0.6, 1.0), scale 0.3s cubic-bezier(0.4, 0.2, 0.6, 1.0), top 0.2s cubic-bezier(0.4, 0.0, 0.6, 1.0), filter 0.4s 0.1s cubic-bezier(0.1, 0.7, 0.0, 1.0), opacity 0.4s linear, scale 0.4s cubic-bezier(0.1, 0.7, 0.0, 1.0), height 0.3s 0.1s cubic-bezier(0.1, 0.7, 0.0, 1.0)";
         editZoneRef.current.style.scale = 1;
         editingComponent.current.name.includes("COR")
-          ? (editZoneRef.current.style.height = "130px")
+          ? (editZoneRef.current.style.height = !isWalletOpen
+              ? "220px"
+              : "292px")
           : editingComponent.current.name.includes("MIX")
-          ? (editZoneRef.current.style.height = "292px")
+          ? (editZoneRef.current.style.height = "220px")
           : (editZoneRef.current.style.height = "100px");
       }, 10);
     }
@@ -558,7 +560,9 @@ const ThreeDViewer = () => {
 
   const closeEditor = () => {
     closeAllTabs();
+    editZoneRef.current.style.height = "220px";
     setTimeout(() => {
+      setIsWalletOpen(false);
       setForceClose(true);
     }, 100);
 
@@ -591,6 +595,7 @@ const ThreeDViewer = () => {
     setColorEditor(true);
     setTextEditor(false);
     setImageEditor(false);
+    editZoneRef.current.style.height = "130px";
     editZoneRefChild.current.style.opacity = "0";
     editZoneRefChild.current.style.transition =
       "all 0.1s cubic-bezier(0.1, 0.7, 0.0, 1.0)";
@@ -729,6 +734,8 @@ const ThreeDViewer = () => {
         console.log(mesh.morphTargetInfluences);
       });
       if (isWalletOpen) {
+        editZoneRef.current.style.height = "220px";
+
         allMeshes.current.forEach((mesh) => {
           const start = {
             influence: 0,
@@ -750,6 +757,8 @@ const ThreeDViewer = () => {
         });
         setIsWalletOpen(false);
       } else {
+        editZoneRef.current.style.height = "292px";
+
         allMeshes.current.forEach((mesh) => {
           const start = { influence: 1, inverse: 0, rotation: 0, x: -2 };
           const end = {
@@ -863,7 +872,6 @@ const ThreeDViewer = () => {
                   <button
                     onClick={colorEditorTab}
                     className={styles.divAreaEspecifica}
-                    style={{ borderWidth: 0 }}
                   >
                     <div className={styles.divIcon}>
                       <NextImage
@@ -880,27 +888,62 @@ const ThreeDViewer = () => {
                       </p>
                     </div>
                   </button>
-
                   <button
-                    onClick={colorEditorTab}
                     className={styles.divAreaEspecifica}
-                    style={{ borderWidth: 0 }}
+                    onClick={openOrCloseWallet}
+                    style={{ borderWidth: isWalletOpen ? 1 : 0 }}
                   >
                     <div className={styles.divIcon}>
                       <NextImage
-                        src={colorIcon}
+                        src={isWalletOpen ? fechadoIcon : abertoIcon}
                         width={20}
                         height={20}
                         alt="step"
                       />
                     </div>
                     <div>
-                      <p className={styles.titleText}>Cor</p>
+                      <p className={styles.titleText}>
+                        {isWalletOpen ? "Fechar Carteira" : "Abrir Carteira"}
+                      </p>
                       <p className={styles.infoText}>
-                        Dá um toque final ao teu produto.
+                        {isWalletOpen
+                          ? "Visualize o interior da sua carteira."
+                          : "Visualize o exterior da sua carteira."}
                       </p>
                     </div>
                   </button>
+                  {isWalletOpen ? (
+                    <button
+                      className={styles.divAreaEspecifica}
+                      onClick={openAba}
+                      style={{
+                        borderWidth: 0,
+                      }}
+                    >
+                      <div
+                        style={{
+                          justifyContent: "center",
+                          alignItems: "center",
+                          display: "flex",
+                          fontSize: 16,
+                          color: "#000",
+                        }}
+                        className={styles.divIcon}
+                      >
+                        {isAbaOpen ? <p> &#8595;</p> : <p> &#8593;</p>}
+                      </div>
+                      <div>
+                        <p className={styles.titleText}>
+                          {isAbaOpen ? "Fechar Aba" : "Abrir Aba"}
+                        </p>
+                        <p className={styles.infoText}>
+                          {isAbaOpen
+                            ? "Abra a aba da carteira."
+                            : "Feche a aba da carteira."}
+                        </p>
+                      </div>
+                    </button>
+                  ) : null}
                 </>
               ) : (
                 <>
@@ -1098,6 +1141,7 @@ const ThreeDViewer = () => {
           editZoneRef={editZoneRef}
           editZoneRefChild={editZoneRefChild}
           forceClose={forceClose}
+          isWalletOpen={isWalletOpen}
         />
       )}
 

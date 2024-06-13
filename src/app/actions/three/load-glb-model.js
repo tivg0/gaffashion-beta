@@ -42,7 +42,6 @@ export const loadGLBModel = (
   ])
     .then((textures) => {
       const [normal, roughness, plasticNormal] = textures;
-      console.log("wowowo");
 
       const objectNames = []; // Array para armazenar os nomes dos objetos
 
