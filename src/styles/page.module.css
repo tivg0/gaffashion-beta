@@ -15,7 +15,7 @@
 
   .desc {
     /* background-color: #00aeef; */
-    color: #00aeef;
+    color: #000;
 
     font-family: "Inter";
     font-weight: 500;
@@ -24,7 +24,7 @@
     padding-right: 10px;
     padding-top: 6px;
     padding-bottom: 6px;
-    border: 1px solid #00aeef;
+    border: 1px solid #000;
     font-size: 14px;
     letter-spacing: -0.2px;
   }
@@ -46,6 +46,7 @@
     margin-top: -15px;
     display: flex;
     align-items: center;
+    bottom: 35px;
     justify-content: center;
   }
 
@@ -86,5 +87,35 @@
     align-items: center;
     justify-content: center;
     scale: 0.84;
+    bottom: 15px;
+  }
+
+  .desc {
+    /* background-color: #00aeef; */
+    color: #000;
+    margin-top: 7px;
+    font-family: "Inter";
+    font-weight: 500;
+    border-radius: 100px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid #000;
+    font-size: 12px;
+    letter-spacing: -0.2px;
+  }
+
+  .titleStruct {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .titleZone {
+    margin: 30px 25px;
+    position: fixed;
+    z-index: 10;
   }
 }

@@ -15,6 +15,8 @@ import Link from "next/link";
 import galeryIcon from "@/imgs/icons/galeryBlack.png";
 import textIcon from "@/imgs/icons/textIcon.png";
 import colorIcon from "@/imgs/icons/colorIcon.webp";
+import abertoIcon from "@/imgs/icons/abertoIcon.png";
+import fechadoIcon from "@/imgs/icons/fechadoIcon.png";
 import model1 from "@/imgs/hoodie-options/3foto.png";
 import model2 from "@/imgs/hoodie-options/5foto.png";
 import model3 from "@/imgs/hoodie-options/2foto.png";
@@ -815,14 +817,7 @@ const ThreeDViewer = () => {
           <p>A carregar...</p>
         </div>
       )}
-      <button onClick={openOrCloseWallet}>
-        {isWalletOpen ? "Fechar carteira" : "Abrir Carteira"}
-      </button>
-      {isWalletOpen ? (
-        <button onClick={openAba}>
-          {isAbaOpen ? "Fechar Aba" : "Abrir Aba"}
-        </button>
-      ) : null}
+
       <div ref={containerRef} style={{ height: "100%", width: "100%" }} />
       <>
         <div ref={editZoneRef} className={styles.editZone}>
@@ -990,19 +985,43 @@ const ThreeDViewer = () => {
         {!preview && editingComponent.current && (
           <div className={styles.editZoneTlm}>
             <div className={styles.mainBtns}>
-              <button onClick={imageEditorTab}>
-                <NextImage src={galeryIcon} width={20} height={20} />
-              </button>
-              <button onClick={textEditorTab}>
-                <NextImage src={textIcon} width={20} height={20} />
-              </button>
-              <button onClick={colorEditorTab}>
+              <button className={styles.colorButton} onClick={colorEditorTab}>
                 <NextImage src={colorIcon} width={20} height={20} />
               </button>
+              <button
+                className={styles.colorButton}
+                onClick={openOrCloseWallet}
+              >
+                <NextImage
+                  src={isWalletOpen ? fechadoIcon : abertoIcon}
+                  width={20}
+                  height={20}
+                />
+              </button>
+              {isWalletOpen ? (
+                <>
+                  {isAbaOpen ? (
+                    <button className={styles.colorButton} onClick={openAba}>
+                      &#8595;
+                    </button>
+                  ) : (
+                    <button className={styles.colorButton} onClick={openAba}>
+                      &#8593;
+                    </button>
+                  )}
+                </>
+              ) : null}
             </div>
           </div>
         )}
       </>
+
+      {isWalletOpen ? (
+        <button className={styles.abrirBtn} onClick={openAba}>
+          {isAbaOpen ? "Fechar Aba" : "Abrir Aba"}
+        </button>
+      ) : null}
+
       {success == false && (
         <>
           <div className={styles.priceBtnMain}>
@@ -1025,24 +1044,7 @@ const ThreeDViewer = () => {
           </div>
 
           <div className={styles.exportBtnNot}>
-            <button
-              onClick={() => {
-                getActiveScene(
-                  setDocId,
-                  setAllCanvasData,
-                  clientData,
-                  model,
-                  sceneRef
-                );
-                calculateArea(fabricCanvases, sceneRef, setAnimatedPrice);
-                setPreview(!preview);
-                setTimeout(() => {
-                  closeEditor();
-                }, 200);
-                closeAllTabs();
-              }}
-              style={buttonStyle}
-            >
+            <button style={buttonStyle}>
               {preview ? (
                 windowWidth < 450 ? (
                   <p
@@ -1055,8 +1057,10 @@ const ThreeDViewer = () => {
                 ) : (
                   "Voltar à Personalização"
                 )
-              ) : (
+              ) : window.innerWidth > 750 ? (
                 "Concluído"
+              ) : (
+                "->"
               )}
             </button>
           </div>

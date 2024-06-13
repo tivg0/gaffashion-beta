@@ -228,7 +228,6 @@
   .exportBtnNot button:hover {
     padding-left: 25px;
     padding-right: 25px;
-    opacity: 0.8;
   }
 
   .modelsZone {
@@ -476,6 +475,15 @@
     margin: auto;
     font-family: "Inter";
   }
+
+  .abrirBtn {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #000;
+    font-family: "Inter";
+    letter-spacing: -0.8px;
+    font-size: 14px;
+  }
 }
 
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
@@ -510,30 +518,43 @@
   .editZoneTlm {
     position: fixed;
     overflow-y: scroll;
+    bottom: 5px;
     padding: 20px;
-    background-color: #fff;
-    bottom: 0;
+    background-color: transparent;
+    right: 0;
     display: block;
     opacity: 1;
-    box-shadow: 0 0 25px rgba(26, 26, 28, 0.025);
+    box-shadow: 0 0 0 transparent;
     z-index: 10;
     border-radius: 0px;
-    width: 100%;
+    height: 100%;
+    width: 60px;
+    justify-content: flex-end;
   }
 
   .mainBtns {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 25px;
+    gap: 15px;
     align-self: center;
-    justify-content: center;
+    justify-content: flex-end;
+    height: 100%;
+    right: 0;
   }
 
-  .mainBtns button {
+  .colorButton {
     border: 0;
     border-radius: 100px;
     background-color: #f2f2f2;
-    padding: 7px;
+    border: 1px solid #e8e8e9;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: #000;
+    font-size: 16px;
   }
 
   .divAreaEspecifica {

@@ -59,12 +59,10 @@
     background-color: #edc64530;
   }
 
-
   .fileUploadLabealBack:hover {
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.02);
-    background-color: #edc64550 ;
+    background-color: #edc64550;
     scale: 1.161;
-
   }
 
   .fileUploadLabealAdd:hover {
@@ -92,7 +90,7 @@
     justify-content: flex-start;
     row-gap: 22px;
     column-gap: 34px;
-    margin-top: 70px;
+    margin-top: 90px;
     margin-left: 0px;
     margin-right: 0px;
   }
@@ -193,7 +191,7 @@
     align-self: center;
     height: 50px;
   }
-  
+
   .coresDisposal::-webkit-scrollbar {
     display: none;
   }

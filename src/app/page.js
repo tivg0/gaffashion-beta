@@ -4,7 +4,7 @@ import ThreeDViewer from "./components/ThreeDViewer";
 import { useState } from "react";
 import NextImage from "next/image";
 import styles from "../styles/page.module.css";
-import logo from "../imgs/logoAllkits.png";
+import logo from "../imgs/logoGaffashion.png";
 import logoStep from "../../public/logoStepNew.png";
 
 const Home = () => {
@@ -20,7 +20,11 @@ const Home = () => {
       </Head>
       <div className={styles.titleZone}>
         <div className={styles.titleStruct}>
-          <NextImage src={logo} width={70} height={35} />
+          {window.innerWidth > 750 ? (
+            <NextImage src={logo} width={236} height={35} />
+          ) : (
+            <NextImage src={logo} width={236 / 1.36} height={35 / 1.36} />
+          )}
           <p className={styles.desc}>Simulator</p>
         </div>
         <div className={styles.poweredTextMainHeader}>
