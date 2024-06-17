@@ -1,4 +1,4 @@
-import { db } from "@/src/firebase";
+import { db } from "@/firebase";
 import { getDoc, doc } from "firebase/firestore";
 
 const getBase64Data = async (docId) => {

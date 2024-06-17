@@ -1,7 +1,7 @@
 "use client";
 import Head from "next/head";
 import ThreeDViewer from "./components/ThreeDViewer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NextImage from "next/image";
 import styles from "../styles/page.module.css";
 import logo from "../imgs/logoGaffashion.png";
@@ -10,6 +10,13 @@ import logoStep from "../../public/logoStepNew.png";
 const Home = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsLargeScreen(window.innerWidth > 750);
+    }
+  }, []);
 
   return (
     <div style={{ overflowX: "hidden", overflowY: "hidden", width: "100%" }}>
@@ -20,7 +27,7 @@ const Home = () => {
       </Head>
       <div className={styles.titleZone}>
         <div className={styles.titleStruct}>
-          {window.innerWidth > 750 ? (
+          {isLargeScreen ? (
             <NextImage src={logo} width={236} height={35} />
           ) : (
             <NextImage src={logo} width={236 / 1.36} height={35 / 1.36} />
@@ -47,7 +54,6 @@ const Home = () => {
           minHeight: "70vh",
           background:
             "radial-gradient(circle, rgba(256, 256, 256, 1) 10%, rgba(240, 240, 240) 50%)",
-          //margin: "auto",
         }}
       >
         <ThreeDViewer product={product} />

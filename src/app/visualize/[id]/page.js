@@ -21,7 +21,7 @@ import { fetchScene } from "../../actions/firebasee/fetch-scene";
 import { getBase64Data } from "../../actions/firebasee/get-base-64-data";
 
 //STYLES
-import styles from "@/src/app/visualize/[id]/visualize.module.css";
+import styles from "@/styles/visualize.module.css";
 
 const Visualize = ({ params }) => {
   const canvasRefs = useRef({});
@@ -45,13 +45,17 @@ const Visualize = ({ params }) => {
   const mesh = useRef(null);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
     const initializeCanvas = async (scene) => {
       const sceneDataArray = await fetchScene(params);
 
       if (!sceneDataArray || !Array.isArray(sceneDataArray)) {
         return;
       }
-      sceneDataArray.forEach((sceneData, index) => {
+      sceneDataArray.forEach((sceneData) => {
         const { width, height, backgroundColor, texts, images, part } =
           sceneData;
 
@@ -131,8 +135,6 @@ const Visualize = ({ params }) => {
                     });
 
                     canvas.add(img);
-                    console.log(canvas);
-                    //canvas.renderAll();
                   },
                   { crossOrigin: "anonymous" } // Add crossOrigin to handle CORS if needed
                 );
@@ -140,7 +142,6 @@ const Visualize = ({ params }) => {
             }
           );
         }
-        console.log(canvas);
         canvas.renderAll();
 
         canvasRefs.current[`${part}`] = canvas;
@@ -184,9 +185,7 @@ const Visualize = ({ params }) => {
     orbit = sceneLayout.orbit;
     setTimeout(() => {
       loadGLBModel(url, scene, setIsLoading, renderer, () => {
-        //setTimeout(() => {
         initializeCanvas(scene);
-        //}, 100);
       });
     }, 1000);
     containerRef.current.appendChild(renderer.domElement);
@@ -201,13 +200,11 @@ const Visualize = ({ params }) => {
       renderer.render(scene, camera);
     };
 
-    //animate();
-
-    function onWindowResize() {
+    const onWindowResize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
-    }
+    };
 
     window.addEventListener("resize", onWindowResize);
 
