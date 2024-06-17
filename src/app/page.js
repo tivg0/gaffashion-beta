@@ -1,7 +1,7 @@
 "use client";
 import Head from "next/head";
 import ThreeDViewer from "./components/ThreeDViewer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NextImage from "next/image";
 import styles from "../styles/page.module.css";
 import logo from "../imgs/logoGaffashion.png";
@@ -11,9 +11,7 @@ const Home = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  //CHECK WINDOW
   const isBrowser = typeof window !== "undefined";
-
   return (
     <div style={{ overflowX: "hidden", overflowY: "hidden", width: "100%" }}>
       <Head>
@@ -50,7 +48,6 @@ const Home = () => {
           minHeight: "70vh",
           background:
             "radial-gradient(circle, rgba(256, 256, 256, 1) 10%, rgba(240, 240, 240) 50%)",
-          //margin: "auto",
         }}
       >
         <ThreeDViewer product={product} />
