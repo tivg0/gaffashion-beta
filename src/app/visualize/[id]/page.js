@@ -21,7 +21,7 @@ import { fetchScene } from "../../actions/firebasee/fetch-scene";
 import { getBase64Data } from "../../actions/firebasee/get-base-64-data";
 
 //STYLES
-import styles from "@/src/app/visualize/[id]/visualize.module.css";
+import styles from "@/app/visualize/[id]/visualize.module.css";
 
 const Visualize = ({ params }) => {
   const canvasRefs = useRef({});

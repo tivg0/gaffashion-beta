@@ -11,6 +11,9 @@ const Home = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  //CHECK WINDOW
+  const isBrowser = typeof window !== "undefined";
+
   return (
     <div style={{ overflowX: "hidden", overflowY: "hidden", width: "100%" }}>
       <Head>
@@ -20,7 +23,7 @@ const Home = () => {
       </Head>
       <div className={styles.titleZone}>
         <div className={styles.titleStruct}>
-          {window.innerWidth > 750 ? (
+          {isBrowser && window.innerWidth > 750 ? (
             <NextImage src={logo} width={236} height={35} />
           ) : (
             <NextImage src={logo} width={236 / 1.36} height={35 / 1.36} />

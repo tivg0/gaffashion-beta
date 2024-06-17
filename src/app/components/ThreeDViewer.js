@@ -1157,7 +1157,7 @@ const ThreeDViewer = () => {
                 ) : (
                   "Voltar à Personalização"
                 )
-              ) : window.innerWidth > 750 ? (
+              ) : windowWidth > 750 ? (
                 "Concluído"
               ) : (
                 "->"
